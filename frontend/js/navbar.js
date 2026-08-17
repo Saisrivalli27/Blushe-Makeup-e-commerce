@@ -1,5 +1,5 @@
 import { renderNavbar, renderFooter } from './components.js';
-import { getCartCount, getWishlistCount, getUser, logoutUser, getCart, formatCurrency, removeFromCart, updateCartQuantity } from './utils.js';
+import { getCartCount, getWishlistCount, getCart, formatCurrency, removeFromCart, updateCartQuantity } from './utils.js';
 
 export const initNavbar = () => {
   // Inject Navbar and Footer

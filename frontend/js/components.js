@@ -74,15 +74,12 @@ export const renderNavbar = () => {
             </svg>
           </button>
           
-          <div class="profile-dropdown-container">
-            <a href="account.html" class="icon-btn profile-btn" aria-label="Account">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                <circle cx="12" cy="7" r="4"></circle>
-              </svg>
-            </a>
-            <div class="profile-dropdown" id="profile-dropdown-content"></div>
-          </div>
+          <a href="account.html" class="icon-btn profile-btn" aria-label="Account">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+          </a>
           
           <a href="wishlist.html" class="icon-btn" aria-label="Wishlist">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
@@ -181,8 +178,6 @@ export const renderNavbar = () => {
           <li><a href="about.html">Discover</a></li>
         </ul>
       </div>
-      <div class="mobile-drawer-footer">
-        <div id="mobile-auth-links"></div>
       </div>
     </div>
     
@@ -230,8 +225,6 @@ export const renderFooter = () => {
           <div class="footer-col">
             <h4>Help & Account</h4>
             <ul>
-              <li><a href="account.html">My Account</a></li>
-              <li><a href="orders.html">Order History</a></li>
               <li><a href="wishlist.html">Wishlist</a></li>
               <li><a href="#">Shipping & Returns</a></li>
               <li><a href="#">Contact Us</a></li>
