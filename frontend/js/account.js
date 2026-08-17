@@ -3,6 +3,23 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 const initAccountPages = async () => {
+  // Mock Form Submissions
+  const loginForm = document.getElementById('login-form');
+  if (loginForm) {
+    loginForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      window.location.href = 'index.html';
+    });
+  }
+
+  const registerForm = document.getElementById('register-form');
+  if (registerForm) {
+    registerForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      window.location.href = 'index.html';
+    });
+  }
+
   // Sidebar Logout (mock)
   const sidebarLogout = document.getElementById('sidebar-logout');
   if (sidebarLogout) {
