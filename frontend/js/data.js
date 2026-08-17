@@ -1,4 +1,4 @@
-import { apiFetch } from './utils.js?v=2';
+import { apiFetch } from './utils.js?v=3';
 
 let cachedProducts = null;
 

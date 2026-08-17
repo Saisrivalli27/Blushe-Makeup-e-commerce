@@ -1,5 +1,5 @@
-import { getWishlist, toggleWishlist, addToCart } from './utils.js?v=2';
-import { renderProductCard } from './components.js?v=2';
+import { getWishlist, toggleWishlist, addToCart } from './utils.js?v=3';
+import { renderProductCard } from './components.js?v=3';
 
 document.addEventListener('DOMContentLoaded', () => {
   renderWishlistPage();
@@ -34,7 +34,7 @@ const attachWishlistEvents = () => {
   container.querySelectorAll('.quick-add-btn').forEach(btn => {
     btn.addEventListener('click', async (e) => {
       const productId = e.target.dataset.id;
-      const { getProductById } = await import('./data.js?v=2');
+      const { getProductById } = await import('./data.js?v=3');
       const product = await getProductById(productId);
       if (product) {
         const defaultShade = product.shades > 1 ? "Standard Shade" : null;
@@ -55,7 +55,7 @@ const attachWishlistEvents = () => {
   container.querySelectorAll('.wishlist-btn').forEach(btn => {
     btn.addEventListener('click', async (e) => {
       const productId = e.target.closest('.wishlist-btn').dataset.id;
-      const { getProductById } = await import('./data.js?v=2');
+      const { getProductById } = await import('./data.js?v=3');
       const product = await getProductById(productId);
       if (product) {
         await toggleWishlist(product);

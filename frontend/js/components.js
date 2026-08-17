@@ -1,4 +1,4 @@
-import { formatCurrency, isInWishlist } from './utils.js?v=2';
+import { formatCurrency, isInWishlist } from './utils.js?v=3';
 
 export const renderProductCard = (product) => {
   const isWishlisted = isInWishlist(product.id);

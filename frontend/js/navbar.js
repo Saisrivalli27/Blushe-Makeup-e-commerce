@@ -1,5 +1,5 @@
-import { renderNavbar, renderFooter } from './components.js?v=2';
-import { getCartCount, getWishlistCount, getCart, formatCurrency, removeFromCart, updateCartQuantity } from './utils.js?v=2';
+import { renderNavbar, renderFooter } from './components.js?v=3';
+import { getCartCount, getWishlistCount, getCart, formatCurrency, removeFromCart, updateCartQuantity } from './utils.js?v=3';
 
 export const initNavbar = () => {
   // Inject Navbar and Footer
@@ -17,7 +17,6 @@ export const initNavbar = () => {
   // Attach event listeners
   setupEvents();
   updateCounts();
-  updateAuthUI();
   updateMiniCart();
 };
 
@@ -127,13 +126,11 @@ const setupEvents = () => {
     updateMiniCart();
   });
   window.addEventListener('wishlistUpdated', updateCounts);
-  window.addEventListener('authUpdated', updateAuthUI);
   
   // Listen for storage events from other tabs
   window.addEventListener('storage', (e) => {
     if(e.key === 'blushe_cart') { window.dispatchEvent(new Event('cartUpdated')); }
     if(e.key === 'blushe_wishlist') { window.dispatchEvent(new Event('wishlistUpdated')); }
-    if(e.key === 'blushe_user') { window.dispatchEvent(new Event('authUpdated')); }
   });
 };
 
@@ -145,54 +142,7 @@ const updateCounts = () => {
   if (wishlistCount) wishlistCount.textContent = getWishlistCount();
 };
 
-const updateAuthUI = () => {
-  const user = getUser();
-  const desktopDropdown = document.getElementById('profile-dropdown-content');
-  const mobileAuthLinks = document.getElementById('mobile-auth-links');
-  
-  if (user) {
-    if (desktopDropdown) {
-      desktopDropdown.innerHTML = `
-        <div style="padding: 10px; border-bottom: 1px solid var(--color-border); margin-bottom: 5px;">
-          <strong>Hi, ${user.name}</strong>
-        </div>
-        <a href="account.html">My Profile</a>
-        <a href="orders.html">My Orders</a>
-        <a href="wishlist.html">Wishlist</a>
-        <button id="logout-btn">Sign Out</button>
-      `;
-    }
-    if (mobileAuthLinks) {
-      mobileAuthLinks.innerHTML = `
-        <a href="account.html">My Account</a>
-        <a href="#" id="mobile-logout-btn">Sign Out</a>
-      `;
-    }
-    
-    // Attach logout handlers
-    document.querySelectorAll('#logout-btn, #mobile-logout-btn').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        e.preventDefault();
-        logoutUser();
-        window.location.reload();
-      });
-    });
-    
-  } else {
-    if (desktopDropdown) {
-      desktopDropdown.innerHTML = `
-        <a href="login.html">Sign In</a>
-        <a href="register.html">Create Account</a>
-      `;
-    }
-    if (mobileAuthLinks) {
-      mobileAuthLinks.innerHTML = `
-        <a href="login.html">Sign In</a>
-        <a href="register.html">Create Account</a>
-      `;
-    }
-  }
-};
+// Auth removed
 
 const updateMiniCart = async () => {
   const container = document.getElementById('mini-cart-items');

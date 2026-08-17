@@ -1,4 +1,4 @@
-import { getCart, removeFromCart, updateCartQuantity, formatCurrency, toggleWishlist, getCartTotal } from './utils.js?v=2';
+import { getCart, removeFromCart, updateCartQuantity, formatCurrency, toggleWishlist, getCartTotal } from './utils.js?v=3';
 
 document.addEventListener('DOMContentLoaded', () => {
   renderCartPage();
@@ -88,10 +88,10 @@ const attachCartEvents = (cart) => {
     btn.addEventListener('click', async (e) => {
       const id = e.target.dataset.id;
       
-      const { getProductById } = await import('./data.js?v=2');
+      const { getProductById } = await import('./data.js?v=3');
       const product = await getProductById(id);
       if(product) {
-        const u = await import('./utils.js?v=2');
+        const u = await import('./utils.js?v=3');
         if(!u.isInWishlist(id)) {
           await u.toggleWishlist(product);
         }

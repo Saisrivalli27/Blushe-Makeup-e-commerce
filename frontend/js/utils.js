@@ -19,7 +19,14 @@ export const formatCurrency = (amount) => {
 
 // --- Cart Helpers (Local Storage) ---
 const CART_KEY = 'blushe_cart';
-let cachedCart = JSON.parse(localStorage.getItem(CART_KEY)) || [];
+let cachedCart;
+try {
+  cachedCart = JSON.parse(localStorage.getItem(CART_KEY));
+  if (!Array.isArray(cachedCart)) throw new Error('Not an array');
+} catch (e) {
+  cachedCart = [];
+  localStorage.setItem(CART_KEY, JSON.stringify(cachedCart));
+}
 
 const saveCart = () => {
   localStorage.setItem(CART_KEY, JSON.stringify(cachedCart));
@@ -27,7 +34,12 @@ const saveCart = () => {
 };
 
 export const fetchCart = async () => {
-  cachedCart = JSON.parse(localStorage.getItem(CART_KEY)) || [];
+  try {
+    cachedCart = JSON.parse(localStorage.getItem(CART_KEY));
+    if (!Array.isArray(cachedCart)) throw new Error('Not an array');
+  } catch (e) {
+    cachedCart = [];
+  }
   return cachedCart;
 };
 

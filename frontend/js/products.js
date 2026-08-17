@@ -1,6 +1,6 @@
-import { fetchAllProducts, getProductById } from './data.js?v=2';
-import { renderProductCard } from './components.js?v=2';
-import { addToCart } from './utils.js?v=2';
+import { fetchAllProducts, getProductById } from './data.js?v=3';
+import { renderProductCard } from './components.js?v=3';
+import { addToCart } from './utils.js?v=3';
 
 document.addEventListener('DOMContentLoaded', () => {
   initCatalog();
