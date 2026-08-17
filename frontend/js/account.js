@@ -34,7 +34,7 @@ const initAuthForms = () => {
       if (email && pass) {
         const success = await loginUser(email, pass);
         if (success) {
-          window.location.href = 'account.html';
+          window.location.href = 'index.html';
         }
       }
     });
@@ -53,7 +53,7 @@ const initAuthForms = () => {
         const { registerUser } = await import('./utils.js');
         const success = await registerUser(`${fname} ${lname}`, email, pass);
         if (success) {
-          window.location.href = 'account.html';
+          window.location.href = 'index.html';
         }
       }
     });
