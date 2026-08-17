@@ -2,10 +2,10 @@
    BLUSHÉ - Utilities & API Integration
    ========================================= */
 
-// TODO: Replace 'https://your-backend-app.onrender.com/api' with your actual Render URL before deploying to Vercel
+// Connected to live Render backend
 const API_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
   ? 'http://localhost:5000/api'
-  : 'https://your-backend-app.onrender.com/api';
+  : 'https://blushe-makeup-e-commerce.onrender.com/api';
 const AUTH_KEY = 'blushe_token';
 const USER_KEY = 'blushe_user';
 
