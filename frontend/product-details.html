@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product Details | BLUSHÉ</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/navbar.css">
+  <link rel="stylesheet" href="css/product-details.css">
+</head>
+<body>
+  
+  <main class="product-page">
+    <div class="container">
+      <!-- Breadcrumbs -->
+      <nav class="breadcrumbs" id="breadcrumbs">
+        <a href="index.html">Home</a> / 
+        <a href="products.html">Makeup</a> / 
+        <span id="breadcrumb-current">...</span>
+      </nav>
+
+      <!-- Main Product Area -->
+      <div class="product-layout grid grid-cols-2 gap-xl" id="product-layout" style="display: none;">
+        
+        <!-- Image Gallery -->
+        <div class="product-gallery">
+          <div class="main-image-container">
+            <span class="badge" id="product-badge" style="display: none; position: absolute; top: var(--space-md); left: var(--space-md); z-index: 2;"></span>
+            <img src="" alt="Product Image" id="main-product-image" class="img-cover" onerror="this.onerror=null; this.classList.add('img-error'); this.src='https://images.unsplash.com/photo-1616683693504-3ea7e9ad6fec?w=600&h=750&fit=crop&q=80'">
+          </div>
+          <div class="thumbnail-list" id="thumbnail-list">
+            <!-- Rendered via JS -->
+          </div>
+        </div>
+
+        <!-- Product Info -->
+        <div class="product-details">
+          <h2 class="product-brand" id="product-brand">BLUSHÉ</h2>
+          <h1 class="product-title" id="product-title">Loading...</h1>
+          
+          <div class="product-rating">
+            <span class="star">★</span> <span id="product-rating"></span> 
+            <a href="#reviews" class="review-link">(<span id="product-reviews"></span> reviews)</a>
+          </div>
+
+          <div class="product-price-large" id="product-price">
+            <!-- Price -->
+          </div>
+
+          <p class="product-description" id="product-description"></p>
+
+          <form id="add-to-cart-form">
+            <!-- Shades Picker -->
+            <div class="shade-picker" id="shade-picker-container" style="display: none;">
+              <div class="flex justify-between items-center" style="margin-bottom: var(--space-sm);">
+                <label class="form-label" style="margin:0;">Shade: <span id="selected-shade-name" style="font-weight: 400; color: var(--color-text-muted);">Select a shade</span></label>
+                <a href="#" class="text-primary" style="font-size: 0.8rem; text-decoration: underline;">Find your shade</a>
+              </div>
+              <div class="shade-swatches" id="shade-swatches">
+                <!-- Swatches via JS -->
+              </div>
+            </div>
+
+            <!-- Quantity & Actions -->
+            <div class="action-row">
+              <div class="qty-selector">
+                <button type="button" id="qty-minus">&minus;</button>
+                <input type="number" id="qty-input" value="1" min="1" max="10" readonly>
+                <button type="button" id="qty-plus">&plus;</button>
+              </div>
+              <button type="submit" class="btn btn-primary btn-block add-to-bag-btn" id="add-to-bag-btn">
+                Add to Bag
+              </button>
+              <button type="button" class="wishlist-action-btn" id="wishlist-action-btn" aria-label="Add to Wishlist">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                </svg>
+              </button>
+            </div>
+          </form>
+
+          <!-- Delivery Estimate Placeholder -->
+          <div class="delivery-estimate">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 9l2 9h10l2-9M3 9h18M12 4v5"></path></svg>
+            <input type="text" placeholder="Enter pincode for delivery estimate" class="form-control" style="border:none; border-bottom: 1px solid var(--color-border); padding: 5px 0;">
+            <button class="btn btn-outline" style="padding: 5px 10px; font-size: 0.75rem;">Check</button>
+          </div>
+
+          <!-- Accordions -->
+          <div class="accordions">
+            <div class="accordion">
+              <button class="accordion-header">Description <span>+</span></button>
+              <div class="accordion-content">
+                <p>Luxurious, skin-loving ingredients provide a flawless finish that lasts all day. Formulated without parabens, phthalates, or sulfates.</p>
+              </div>
+            </div>
+            <div class="accordion">
+              <button class="accordion-header">How to Use <span>+</span></button>
+              <div class="accordion-content">
+                <p>Apply directly to clean skin or over primer. Blend outwards using fingertips, a sponge, or a brush for a seamless finish.</p>
+              </div>
+            </div>
+            <div class="accordion">
+              <button class="accordion-header">Ingredients <span>+</span></button>
+              <div class="accordion-content">
+                <p>Aqua/Water/Eau, Cyclopentasiloxane, Glycerin, Isododecane, Alcohol Denat., Polyglyceryl-4 Isostearate, Cetyl Peg/Ppg-10/1 Dimethicone, Hexyl Laurate, Aluminum Starch Octenylsuccinate, Disteardimonium Hectorite, Phenoxyethanol.</p>
+              </div>
+            </div>
+            <div class="accordion">
+              <button class="accordion-header">Shipping & Returns <span>+</span></button>
+              <div class="accordion-content">
+                <p>Free standard shipping on all orders over ₹1,999. Return new, unused items within 30 days of delivery for a full refund.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Error State -->
+      <div id="product-error" style="display: none; padding: var(--space-xxl) 0; text-align: center;">
+        <h2>Product Not Found</h2>
+        <p>The product you're looking for doesn't exist or has been removed.</p>
+        <a href="products.html" class="btn btn-primary" style="margin-top: var(--space-md);">Continue Shopping</a>
+      </div>
+    </div>
+    
+    <!-- Complete the Look -->
+    <section class="section container" id="recommendations-section" style="display: none; margin-top: var(--space-xxl); border-top: 1px solid var(--color-border);">
+      <h2 class="text-center">Complete The Look</h2>
+      <div class="grid grid-cols-5 gap-lg" id="recommendations-grid" style="margin-top: var(--space-xl);">
+        <!-- Rendered via JS -->
+      </div>
+    </section>
+
+    <!-- Mobile Sticky Add to Bag -->
+    <div class="mobile-sticky-actions">
+      <button class="btn btn-primary btn-block" id="mobile-add-btn">Add to Bag - <span id="mobile-price"></span></button>
+    </div>
+  </main>
+
+  <script type="module" src="js/main.js"></script>
+  <script type="module" src="js/product-details.js"></script>
+</body>
+</html>

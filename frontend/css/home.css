@@ -1,0 +1,324 @@
+/* =========================================
+   BLUSHÉ - Home Page Styles
+   ========================================= */
+
+/* Hero Section */
+.hero {
+  position: relative;
+  height: 75vh;
+  min-height: 720px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 5;
+  width: 100%;
+  max-width: 560px;
+  padding-left: 72px;
+}
+
+.hero-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center right;
+  z-index: 1;
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(255,253,249,0.92) 0%, rgba(255,253,249,0.70) 42%, rgba(255,253,249,0) 68%);
+  z-index: 2;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 3;
+  max-width: 800px;
+  color: var(--color-surface);
+  animation: fadeUp 1s ease forwards;
+}
+
+.hero-eyebrow {
+  display: block;
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  margin-bottom: var(--space-md);
+  font-weight: 700;
+  color: #1A1615;
+}
+
+.hero-title {
+  color: #1A1615;
+  font-size: 64px;
+  margin-bottom: var(--space-md);
+  line-height: 1.04;
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: -1px;
+}
+
+.hero-subtitle {
+  font-size: 18px;
+  margin-bottom: var(--space-xl);
+  color: #1A1615;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 16px;
+}
+
+.btn-hero-primary, .btn-hero-secondary {
+  padding: 14px 16px;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-fast);
+  border-radius: var(--radius-sm);
+  min-width: 160px;
+}
+
+.btn-hero-primary {
+  background-color: #111111;
+  color: #FFFDF9;
+  border: 1px solid #111111;
+}
+.btn-hero-primary:hover {
+  background-color: #000000;
+}
+
+.btn-hero-secondary {
+  background-color: transparent;
+  color: #111111;
+  border: 1px solid #111111;
+}
+.btn-hero-secondary:hover {
+  background-color: #111111;
+  color: #FFFDF9;
+}
+
+.btn-hero {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.875rem 2rem;
+  background-color: #D7D4D0;
+  color: #111111;
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 0.85rem;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: all var(--transition-fast);
+}
+.btn-hero:hover {
+  background-color: #FFFFFF;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 1024px) {
+  .hero { min-height: 620px; }
+  .hero-content { padding-left: 40px; }
+  .hero-title { font-size: 48px; }
+}
+
+@media (max-width: 768px) {
+  .hero { height: 65vh; min-height: 560px; }
+  .hero-content { padding-left: 24px; padding-right: 24px; text-align: left; }
+  .hero-overlay { background: linear-gradient(90deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.7) 60%, rgba(255, 255, 255, 0) 100%); }
+  .hero-title { font-size: 38px; line-height: 1.04; }
+  .hero-subtitle { font-size: 16px; margin-bottom: var(--space-lg); line-height: 1.5; }
+  .hero-actions { justify-content: flex-start; flex-direction: column; gap: 16px; }
+}
+
+/* Brand Statement */
+.brand-statement {
+  background-color: var(--color-background);
+  padding: var(--space-lg) var(--space-md);
+}
+
+.brand-statement h2 {
+  max-width: 900px;
+  margin: 0 auto;
+  font-size: 2.5rem;
+  line-height: 1.4;
+  color: var(--color-text-main);
+}
+
+@media (max-width: 768px) {
+  .brand-statement h2 { font-size: 1.75rem; }
+}
+
+/* Category Cards */
+.grid-cols-5 {
+  grid-template-columns: repeat(5, 1fr);
+}
+
+.category-card {
+  position: relative;
+  display: block;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  aspect-ratio: 3/4;
+}
+
+.category-card img {
+  transition: transform 0.6s ease;
+}
+
+.category-card:hover img {
+  transform: scale(1.05);
+}
+
+.category-title {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  padding: var(--space-md);
+  color: var(--color-surface);
+  background: linear-gradient(to top, rgba(37, 27, 26, 0.6), transparent);
+  margin: 0;
+}
+
+/* Collection Cards */
+.collection-card {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  aspect-ratio: 4/5;
+  border-radius: var(--radius-sm);
+}
+
+.collection-card img {
+  transition: transform 0.8s ease;
+}
+
+.collection-card:hover img {
+  transform: scale(1.03);
+}
+
+.collection-info {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: rgba(17, 17, 17, 0.3);
+  color: var(--color-surface);
+  transition: background var(--transition-normal);
+}
+
+.collection-card:hover .collection-info {
+  background: rgba(17, 17, 17, 0.5);
+}
+
+.collection-info h3 {
+  color: var(--color-surface);
+  font-size: 1.5rem;
+  margin-bottom: var(--space-sm);
+}
+.collection-info span {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-bottom: 1px solid var(--color-surface);
+  padding-bottom: 2px;
+}
+
+@media (max-width: 768px) {
+  .collection-card { aspect-ratio: 1; }
+  .collection-info h3 { font-size: 2rem; }
+}
+
+/* Product Card Component moved to style.css */
+
+
+/* Signature Bestseller Split */
+.signature-bestseller {
+  display: flex;
+  background-color: var(--color-background);
+}
+
+.bestseller-image, .bestseller-content {
+  flex: 1;
+}
+
+.bestseller-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: var(--space-xxl) 8%;
+}
+
+.bestseller-content h2 {
+  font-size: 3rem;
+  line-height: 1.1;
+  margin-bottom: var(--space-md);
+}
+
+@media (max-width: 768px) {
+  .signature-bestseller { flex-direction: column; }
+  .bestseller-image { height: 400px; }
+  .bestseller-content { padding: var(--space-xl) var(--space-md); text-align: center; align-items: center; }
+  .bestseller-content h2 { font-size: 2.25rem; }
+}
+
+/* Benefits */
+.benefits-section {
+  background-color: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.benefit-icon {
+  font-size: 2rem;
+  margin-bottom: var(--space-md);
+}
+
+/* Newsletter */
+.newsletter-section {
+  padding: var(--space-xxl) 0;
+  background-color: var(--color-background);
+}
+
+.newsletter-form {
+  max-width: 450px;
+  margin: var(--space-lg) auto 0;
+  display: flex;
+  gap: var(--space-sm);
+}
+
+.newsletter-form .form-control {
+  background-color: transparent;
+  border: none;
+  border-bottom: 1px solid var(--color-text-main);
+  border-radius: 0;
+}
+.newsletter-form .form-control:focus {
+  box-shadow: none;
+  border-color: var(--color-primary);
+}

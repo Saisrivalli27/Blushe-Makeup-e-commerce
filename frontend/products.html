@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shop Makeup & Beauty | BLUSHÉ</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/navbar.css">
+  <link rel="stylesheet" href="css/products.css">
+</head>
+<body>
+  
+  <main class="products-page">
+    <div class="page-header">
+      <div class="container text-center">
+        <h1 id="page-title">Shop All</h1>
+        <p id="page-subtitle" class="text-muted">Discover our complete collection of premium beauty essentials.</p>
+      </div>
+    </div>
+
+    <div class="container layout-grid">
+      <!-- Sidebar Filters (Desktop) / Bottom Sheet (Mobile) -->
+      <aside class="sidebar-filters" id="sidebar-filters">
+        <div class="filter-header-mobile">
+          <h3>Filters</h3>
+          <button class="close-filters" id="close-filters">&times;</button>
+        </div>
+        
+        <div class="filter-group">
+          <h4>Category</h4>
+          <ul class="filter-list" id="filter-category">
+            <li><label><input type="checkbox" value="face"> Face</label></li>
+            <li><label><input type="checkbox" value="eyes"> Eyes</label></li>
+            <li><label><input type="checkbox" value="lips"> Lips</label></li>
+            <li><label><input type="checkbox" value="brushes"> Brushes & Tools</label></li>
+            <li><label><input type="checkbox" value="collections"> Collections</label></li>
+          </ul>
+        </div>
+        
+        <div class="filter-group">
+          <h4>Product Type</h4>
+          <ul class="filter-list" id="filter-type">
+            <li><label><input type="checkbox" value="foundation"> Foundation</label></li>
+            <li><label><input type="checkbox" value="concealer"> Concealer</label></li>
+            <li><label><input type="checkbox" value="blush"> Blush</label></li>
+            <li><label><input type="checkbox" value="lipstick"> Lipstick</label></li>
+            <li><label><input type="checkbox" value="eyeshadow"> Eyeshadow</label></li>
+          </ul>
+        </div>
+
+        <div class="filter-group">
+          <h4>Price Range</h4>
+          <ul class="filter-list" id="filter-price">
+            <li><label><input type="radio" name="price" value="all" checked> All Prices</label></li>
+            <li><label><input type="radio" name="price" value="0-2000"> Under ₹2,000</label></li>
+            <li><label><input type="radio" name="price" value="2000-4000"> ₹2,000 - ₹4,000</label></li>
+            <li><label><input type="radio" name="price" value="4000-99999"> Over ₹4,000</label></li>
+          </ul>
+        </div>
+
+        <div class="filter-actions">
+          <button class="btn btn-outline btn-block" id="clear-filters">Clear All</button>
+        </div>
+      </aside>
+
+      <!-- Main Content -->
+      <div class="main-content">
+        <div class="toolbar flex justify-between items-center">
+          <button class="btn btn-outline mobile-filter-btn" id="mobile-filter-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 8px;">
+              <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
+            </svg>
+            Filters
+          </button>
+          
+          <div class="results-count" id="results-count">Showing 0 products</div>
+          
+          <div class="sort-dropdown">
+            <select id="sort-select" class="form-control" style="width: auto; padding-right: var(--space-lg);">
+              <option value="featured">Featured</option>
+              <option value="newest">Newest Arrivals</option>
+              <option value="price-low">Price: Low to High</option>
+              <option value="price-high">Price: High to Low</option>
+              <option value="rating">Best Rated</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Active Filter Chips -->
+        <div class="active-filters" id="active-filters">
+          <!-- Rendered via JS -->
+        </div>
+
+        <!-- Product Grid -->
+        <div class="grid grid-cols-5 gap-lg" id="product-grid" style="row-gap: var(--space-xl);">
+          <!-- Rendered via JS -->
+        </div>
+        
+        <!-- Empty State -->
+        <div class="empty-state" id="empty-state" style="display: none;">
+          <h3>No products found</h3>
+          <p>We couldn't find anything matching your current filters.</p>
+          <button class="btn btn-primary" id="reset-empty-filters" style="margin-top: var(--space-md);">Clear Filters</button>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- Product Modal -->
+  <div class="product-modal-overlay" id="product-modal">
+    <div class="product-modal-content">
+      <button class="modal-close" id="modal-close">&times;</button>
+      <div class="modal-image-container">
+        <img src="" alt="Product Image" id="modal-image">
+      </div>
+      <div class="modal-details">
+        <div class="product-brand" id="modal-brand">BLUSHÉ</div>
+        <h2 class="modal-title" id="modal-title">Product Name</h2>
+        <div class="modal-price" id="modal-price">₹0.00</div>
+        <div class="product-rating" style="margin-bottom: 1rem;" id="modal-rating">
+          <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+          <span style="margin-left: 5px;">(0)</span>
+        </div>
+        <p class="modal-desc" id="modal-desc">Product description goes here.</p>
+        <button class="btn btn-primary btn-block modal-add-to-cart" id="modal-add-btn">Add to Cart</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="js/main.js"></script>
+  <script type="module" src="js/products.js"></script>
+</body>
+</html>

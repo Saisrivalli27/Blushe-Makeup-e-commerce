@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Bag | BLUSHÉ</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/navbar.css">
+  <link rel="stylesheet" href="css/cart.css">
+</head>
+<body>
+  
+  <main class="cart-page container">
+    <h1 class="text-center" style="margin: var(--space-xl) 0;">Your Bag</h1>
+
+    <div class="cart-layout grid grid-cols-3 gap-xl" id="cart-layout">
+      <!-- Cart Items -->
+      <div class="cart-items-col" style="grid-column: span 2;">
+        <div class="cart-header flex justify-between text-muted" style="border-bottom: 1px solid var(--color-border); padding-bottom: var(--space-sm); margin-bottom: var(--space-md); font-size: 0.9rem; text-transform: uppercase;">
+          <span>Product</span>
+          <span>Quantity</span>
+          <span>Total</span>
+        </div>
+        <div id="cart-items-container">
+          <!-- Rendered via JS -->
+        </div>
+      </div>
+
+      <!-- Order Summary -->
+      <div class="cart-summary-col">
+        <div class="summary-card">
+          <h3>Order Summary</h3>
+          <div class="summary-row">
+            <span>Subtotal</span>
+            <span id="summary-subtotal">₹0</span>
+          </div>
+          <div class="summary-row">
+            <span>Estimated Shipping</span>
+            <span>Free</span>
+          </div>
+          <div class="summary-row total-row">
+            <span>Total</span>
+            <span id="summary-total">₹0</span>
+          </div>
+          <a href="checkout.html" class="btn btn-primary btn-block">Checkout Securely</a>
+          
+          <div class="payment-methods text-center" style="margin-top: var(--space-md); font-size: 0.8rem; color: var(--color-text-muted);">
+            <p style="margin-bottom: var(--space-xs);">We accept</p>
+            <div class="flex justify-center gap-sm">
+              <span>UPI</span> &bull; <span>Card</span> &bull; <span>COD</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Empty State -->
+    <div class="empty-state text-center" id="cart-empty-state" style="display: none; padding: var(--space-xxl) 0;">
+      <h2>Your bag is empty</h2>
+      <p style="color: var(--color-text-muted); margin-bottom: var(--space-lg);">Discover our latest arrivals and best sellers.</p>
+      <a href="products.html" class="btn btn-primary">Shop Now</a>
+    </div>
+
+  </main>
+
+  <script type="module" src="js/main.js"></script>
+  <script type="module" src="js/cart.js"></script>
+</body>
+</html>

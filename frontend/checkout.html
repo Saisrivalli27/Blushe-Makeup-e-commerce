@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout | BLUSHÉ</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/checkout.css">
+</head>
+<body style="background-color: var(--color-surface);">
+  
+  <!-- Minimal Header for Checkout -->
+  <header class="checkout-header">
+    <div class="container text-center" style="padding: var(--space-md) 0; border-bottom: 1px solid var(--color-border);">
+      <a href="index.html" class="logo">BLUSHÉ</a>
+      <p style="font-size: 0.8rem; color: var(--color-text-muted); text-transform: uppercase; margin-top: 5px; margin-bottom: 0;">Secure Checkout</p>
+    </div>
+  </header>
+
+  <main class="checkout-layout container">
+    <!-- Left Column: Forms -->
+    <div class="checkout-forms">
+      
+      <!-- Contact -->
+      <section class="checkout-section">
+        <h2>Contact Information</h2>
+        <div class="form-group">
+          <input type="email" class="form-control" placeholder="Email Address" required>
+        </div>
+        <label style="font-size: 0.9rem; color: var(--color-text-muted); display: flex; align-items: center; gap: 8px;">
+          <input type="checkbox" checked style="accent-color: var(--color-primary);"> Email me with news and offers
+        </label>
+      </section>
+
+      <!-- Delivery -->
+      <section class="checkout-section">
+        <h2>Delivery Address</h2>
+        <div class="grid grid-cols-2 gap-md" style="margin-bottom: var(--space-md);">
+          <div class="form-group mb-0"><input type="text" class="form-control" placeholder="First Name" required></div>
+          <div class="form-group mb-0"><input type="text" class="form-control" placeholder="Last Name" required></div>
+        </div>
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Address" required>
+        </div>
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Apartment, suite, etc. (optional)">
+        </div>
+        <div class="grid grid-cols-3 gap-md" style="margin-bottom: var(--space-md);">
+          <div class="form-group mb-0"><input type="text" class="form-control" placeholder="City" required></div>
+          <div class="form-group mb-0">
+            <select class="form-control" required>
+              <option value="" disabled selected>State</option>
+              <option value="MH">Maharashtra</option>
+              <option value="KA">Karnataka</option>
+              <option value="DL">Delhi</option>
+            </select>
+          </div>
+          <div class="form-group mb-0"><input type="text" class="form-control" placeholder="PIN Code" required></div>
+        </div>
+        <div class="form-group">
+          <input type="tel" class="form-control" placeholder="Phone Number" required>
+        </div>
+      </section>
+
+      <!-- Payment Method -->
+      <section class="checkout-section">
+        <h2>Payment</h2>
+        <p style="font-size: 0.85rem; color: var(--color-text-muted); margin-bottom: var(--space-md);">All transactions are secure and encrypted.</p>
+        
+        <div class="payment-methods">
+          <label class="payment-option">
+            <input type="radio" name="payment_method" value="upi" checked>
+            <div class="payment-content">
+              <span>UPI / QR</span>
+              <div class="payment-details" id="details-upi">
+                <input type="text" class="form-control" placeholder="Enter UPI ID (e.g., name@okbank)" style="margin-top: 10px;">
+              </div>
+            </div>
+          </label>
+          
+          <label class="payment-option">
+            <input type="radio" name="payment_method" value="card">
+            <div class="payment-content">
+              <span>Credit / Debit Card</span>
+              <div class="payment-details" id="details-card">
+                <input type="text" class="form-control" placeholder="Card Number" style="margin-top: 10px; margin-bottom: 10px;">
+                <div class="grid grid-cols-2 gap-md">
+                  <input type="text" class="form-control" placeholder="MM/YY">
+                  <input type="text" class="form-control" placeholder="CVV">
+                </div>
+              </div>
+            </div>
+          </label>
+          
+          <label class="payment-option">
+            <input type="radio" name="payment_method" value="cod">
+            <div class="payment-content">
+              <span>Cash on Delivery (COD)</span>
+            </div>
+          </label>
+        </div>
+      </section>
+
+      <button type="button" class="btn btn-primary btn-block btn-large" id="place-order-btn">Pay Now</button>
+      <div class="text-center" style="margin-top: var(--space-md);">
+        <a href="cart.html" style="font-size: 0.9rem; color: var(--color-text-muted); text-decoration: underline;">Return to cart</a>
+      </div>
+    </div>
+
+    <!-- Right Column: Summary -->
+    <div class="checkout-sidebar">
+      <div class="order-summary-box">
+        <div id="checkout-items">
+          <!-- Rendered via JS -->
+        </div>
+
+        <div class="discount-code flex gap-sm" style="margin: var(--space-lg) 0; border-bottom: 1px solid var(--color-border); padding-bottom: var(--space-lg);">
+          <input type="text" class="form-control" placeholder="Discount code">
+          <button class="btn btn-outline">Apply</button>
+        </div>
+
+        <div class="summary-totals">
+          <div class="flex justify-between" style="margin-bottom: var(--space-sm); color: var(--color-text-muted);">
+            <span>Subtotal</span>
+            <span id="checkout-subtotal">₹0</span>
+          </div>
+          <div class="flex justify-between" style="margin-bottom: var(--space-md); color: var(--color-text-muted);">
+            <span>Shipping</span>
+            <span>Free</span>
+          </div>
+          <div class="flex justify-between" style="font-size: 1.25rem; font-weight: 500; border-top: 1px solid var(--color-border); padding-top: var(--space-md);">
+            <span>Total</span>
+            <span id="checkout-total">₹0</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Success Modal -->
+  <div class="modal-overlay" id="success-modal">
+    <div class="modal-content text-center">
+      <div class="success-icon" style="font-size: 3rem; color: var(--color-primary); margin-bottom: var(--space-sm);">✓</div>
+      <h2>Order Confirmed</h2>
+      <p style="color: var(--color-text-muted); margin-bottom: var(--space-lg);">Thank you for shopping with BLUSHÉ. Your order number is #<span id="order-number-display"></span>.</p>
+      <a href="index.html" class="btn btn-primary">Return to Home</a>
+    </div>
+  </div>
+
+  <script type="module" src="js/utils.js"></script>
+  <script type="module" src="js/checkout.js"></script>
+</body>
+</html>
