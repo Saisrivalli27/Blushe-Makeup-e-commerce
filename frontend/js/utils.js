@@ -87,6 +87,8 @@ export const registerUser = async (fullName, email, password) => {
 export const logoutUser = () => {
   localStorage.removeItem(AUTH_KEY);
   localStorage.removeItem(USER_KEY);
+  cachedCart = [];
+  cachedWishlist = [];
   window.dispatchEvent(new Event('authUpdated'));
   window.dispatchEvent(new Event('cartUpdated'));
   window.dispatchEvent(new Event('wishlistUpdated'));
@@ -97,9 +99,22 @@ const CART_KEY = 'blushe_cart';
 let cachedCart = [];
 
 export const fetchCart = async () => {
+  if (!getToken()) {
+    cachedCart = [];
+    return cachedCart;
+  }
   try {
-    const local = localStorage.getItem(CART_KEY);
-    cachedCart = local ? JSON.parse(local) : [];
+    const data = await apiFetch('/cart');
+    cachedCart = data.map(item => ({
+      id: item.product_id,
+      cartItemId: item.id,
+      name: item.products.name,
+      price: item.products.price,
+      image: item.products.image,
+      brand: item.products.brand,
+      quantity: item.quantity,
+      shade: null
+    }));
   } catch (e) {
     cachedCart = [];
   }
@@ -111,43 +126,49 @@ export const getCart = async () => {
 };
 
 export const addToCart = async (product, quantity = 1, shade = null) => {
-  await fetchCart();
-  const existing = cachedCart.find(item => item.id === product.id);
-  if (existing) {
-    existing.quantity += quantity;
-  } else {
-    cachedCart.push({
-      id: product.id,
-      cartItemId: Date.now() + Math.random(),
-      name: product.name,
-      price: product.price,
-      image: product.image,
-      brand: product.brand,
-      quantity: quantity,
-      shade: shade
-    });
+  if (!getToken()) {
+    window.location.href = 'login.html';
+    return;
   }
-  localStorage.setItem(CART_KEY, JSON.stringify(cachedCart));
-  window.dispatchEvent(new Event('cartUpdated'));
-  showToast(`${product.name} added to your bag.`);
+  try {
+    await apiFetch('/cart', {
+      method: 'POST',
+      body: JSON.stringify({ productId: product.id, quantity })
+    });
+    await fetchCart();
+    window.dispatchEvent(new Event('cartUpdated'));
+    showToast(`${product.name} added to your bag.`);
+  } catch (e) {
+    showToast('Failed to add to cart.');
+  }
 };
 
 export const removeFromCart = async (productId, shade = null) => {
-  await fetchCart();
-  // Filter out the item matching both ID and shade. Loose equality for ID just in case.
-  cachedCart = cachedCart.filter(item => !(item.id == productId && item.shade == shade));
-  localStorage.setItem(CART_KEY, JSON.stringify(cachedCart));
-  window.dispatchEvent(new Event('cartUpdated'));
+  if (!getToken()) return;
+  const item = cachedCart.find(i => i.id == productId);
+  if (!item) return;
+  try {
+    await apiFetch(`/cart/${item.cartItemId}`, { method: 'DELETE' });
+    await fetchCart();
+    window.dispatchEvent(new Event('cartUpdated'));
+  } catch (e) {
+    showToast('Failed to remove from cart.');
+  }
 };
 
 export const updateCartQuantity = async (productId, shade, quantity) => {
-  if (quantity < 1) return;
-  await fetchCart();
-  const item = cachedCart.find(item => item.id == productId && item.shade == shade);
-  if (item) {
-    item.quantity = quantity;
-    localStorage.setItem(CART_KEY, JSON.stringify(cachedCart));
+  if (!getToken() || quantity < 1) return;
+  const item = cachedCart.find(i => i.id == productId);
+  if (!item) return;
+  try {
+    await apiFetch(`/cart/${item.cartItemId}`, {
+      method: 'PUT',
+      body: JSON.stringify({ quantity })
+    });
+    await fetchCart();
     window.dispatchEvent(new Event('cartUpdated'));
+  } catch(e) {
+    showToast('Failed to update quantity.');
   }
 };
 
@@ -164,9 +185,20 @@ const WISHLIST_KEY = 'blushe_wishlist';
 let cachedWishlist = [];
 
 export const fetchWishlist = async () => {
+  if (!getToken()) {
+    cachedWishlist = [];
+    return cachedWishlist;
+  }
   try {
-    const local = localStorage.getItem(WISHLIST_KEY);
-    cachedWishlist = local ? JSON.parse(local) : [];
+    const data = await apiFetch('/wishlist');
+    cachedWishlist = data.map(item => ({
+      id: item.product_id,
+      wishlistItemId: item.id,
+      name: item.products.name,
+      price: item.products.price,
+      image: item.products.image,
+      brand: item.products.brand
+    }));
   } catch (e) {
     cachedWishlist = [];
   }
@@ -178,27 +210,23 @@ export const getWishlist = async () => {
 };
 
 export const toggleWishlist = async (product) => {
-  await fetchWishlist();
-  const index = cachedWishlist.findIndex(item => item.id === product.id);
-  let isWishlisted = false;
-  if (index >= 0) {
-    cachedWishlist.splice(index, 1);
-    showToast(`${product.name} removed from wishlist`);
-  } else {
-    cachedWishlist.push({
-      id: product.id,
-      wishlistItemId: Date.now() + Math.random(),
-      name: product.name,
-      price: product.price,
-      image: product.image,
-      brand: product.brand
-    });
-    isWishlisted = true;
-    showToast(`${product.name} added to wishlist`);
+  if (!getToken()) {
+    window.location.href = 'login.html';
+    return false;
   }
-  localStorage.setItem(WISHLIST_KEY, JSON.stringify(cachedWishlist));
-  window.dispatchEvent(new Event('wishlistUpdated'));
-  return isWishlisted;
+  try {
+    const data = await apiFetch('/wishlist', {
+      method: 'POST',
+      body: JSON.stringify({ productId: product.id })
+    });
+    await fetchWishlist();
+    window.dispatchEvent(new Event('wishlistUpdated'));
+    showToast(data.message);
+    return data.isWishlisted;
+  } catch (e) {
+    showToast('Failed to update wishlist.');
+    return false;
+  }
 };
 
 export const isInWishlist = (productId) => {
