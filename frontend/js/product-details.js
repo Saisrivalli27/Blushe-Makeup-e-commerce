@@ -1,6 +1,6 @@
-import { getProductById, getProductsByCategory } from './data.js';
-import { formatCurrency, addToCart, toggleWishlist, isInWishlist } from './utils.js';
-import { renderProductCard } from './components.js';
+import { getProductById, getProductsByCategory } from './data.js?v=2';
+import { formatCurrency, addToCart, toggleWishlist, isInWishlist } from './utils.js?v=2';
+import { renderProductCard } from './components.js?v=2';
 
 document.addEventListener('DOMContentLoaded', () => {
   initProductDetails();

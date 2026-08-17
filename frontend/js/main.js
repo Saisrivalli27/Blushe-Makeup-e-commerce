@@ -1,7 +1,7 @@
-import { initNavbar } from './navbar.js';
-import { getNewArrivals } from './data.js';
-import { renderProductCard } from './components.js';
-import { addToCart, toggleWishlist } from './utils.js';
+import { initNavbar } from './navbar.js?v=2';
+import { getNewArrivals } from './data.js?v=2';
+import { renderProductCard } from './components.js?v=2';
+import { addToCart, toggleWishlist } from './utils.js?v=2';
 
 document.addEventListener('DOMContentLoaded', () => {
   // 1. Initialize Global UI (Navbar, Footer, Modals)
@@ -73,7 +73,7 @@ const setupGlobalProductInteractions = () => {
     if (e.target.closest('.quick-add-btn')) {
       const btn = e.target.closest('.quick-add-btn');
       const productId = btn.dataset.id;
-      const { getProductById } = await import('./data.js');
+      const { getProductById } = await import('./data.js?v=2');
       const product = await getProductById(productId);
       if (product) {
         const defaultShade = product.shades > 1 ? "Standard Shade" : null;
@@ -89,7 +89,7 @@ const setupGlobalProductInteractions = () => {
     if (e.target.closest('.wishlist-btn')) {
       const btn = e.target.closest('.wishlist-btn');
       const productId = btn.dataset.id;
-      const { getProductById } = await import('./data.js');
+      const { getProductById } = await import('./data.js?v=2');
       const product = await getProductById(productId);
       if (product) {
         const isNowActive = await toggleWishlist(product);

@@ -4,7 +4,7 @@
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
 -- 1. Profiles Table (Linked to auth.users)
-CREATE TABLE public.profiles (
+CREATE TABLE IF NOT EXISTS public.profiles (
   id UUID REFERENCES auth.users(id) ON DELETE CASCADE PRIMARY KEY,
   full_name TEXT,
   email TEXT UNIQUE,
@@ -26,7 +26,7 @@ CREATE OR REPLACE TRIGGER on_auth_user_created
   FOR EACH ROW EXECUTE PROCEDURE public.handle_new_user();
 
 -- 2. Products Table
-CREATE TABLE public.products (
+CREATE TABLE IF NOT EXISTS public.products (
   id TEXT PRIMARY KEY,
   name TEXT NOT NULL,
   brand TEXT NOT NULL,
@@ -45,7 +45,7 @@ CREATE TABLE public.products (
 );
 
 -- 3. Cart Items Table
-CREATE TABLE public.cart_items (
+CREATE TABLE IF NOT EXISTS public.cart_items (
   id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
   user_id UUID REFERENCES public.profiles(id) ON DELETE CASCADE NOT NULL,
   product_id TEXT REFERENCES public.products(id) ON DELETE CASCADE NOT NULL,
@@ -55,7 +55,7 @@ CREATE TABLE public.cart_items (
 );
 
 -- 4. Wishlist Items Table
-CREATE TABLE public.wishlist_items (
+CREATE TABLE IF NOT EXISTS public.wishlist_items (
   id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
   user_id UUID REFERENCES public.profiles(id) ON DELETE CASCADE NOT NULL,
   product_id TEXT REFERENCES public.products(id) ON DELETE CASCADE NOT NULL,
@@ -64,7 +64,7 @@ CREATE TABLE public.wishlist_items (
 );
 
 -- 5. Orders Table
-CREATE TABLE public.orders (
+CREATE TABLE IF NOT EXISTS public.orders (
   id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
   user_id UUID REFERENCES public.profiles(id) ON DELETE CASCADE NOT NULL,
   total_amount DECIMAL(10, 2) NOT NULL,
@@ -74,7 +74,7 @@ CREATE TABLE public.orders (
 );
 
 -- 6. Order Items Table
-CREATE TABLE public.order_items (
+CREATE TABLE IF NOT EXISTS public.order_items (
   id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
   order_id UUID REFERENCES public.orders(id) ON DELETE CASCADE NOT NULL,
   product_id TEXT REFERENCES public.products(id) ON DELETE SET NULL,

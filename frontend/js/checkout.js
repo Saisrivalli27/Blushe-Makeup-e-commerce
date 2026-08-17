@@ -1,4 +1,4 @@
-import { getCart, getCartTotal, formatCurrency } from './utils.js';
+import { getCart, getCartTotal, formatCurrency } from './utils.js?v=2';
 
 document.addEventListener('DOMContentLoaded', () => {
   renderCheckoutSummary();
@@ -74,7 +74,7 @@ const setupCheckoutFlow = () => {
       
       // Clear Cart from Local Storage since we removed backend
       localStorage.removeItem('blushe_cart');
-      const u = await import('./utils.js');
+      const u = await import('./utils.js?v=2');
       await u.fetchCart();
       window.dispatchEvent(new Event('cartUpdated'));
 
