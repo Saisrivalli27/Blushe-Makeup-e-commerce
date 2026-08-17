@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Orders | BLUSHÉ</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/navbar.css">
+  <link rel="stylesheet" href="css/account.css">
+</head>
+<body>
+  
+  <main class="container layout-account">
+    <!-- Sidebar -->
+    <aside class="account-sidebar">
+      <h3>My Account</h3>
+      <ul class="account-nav">
+        <li><a href="account.html">Profile</a></li>
+        <li><a href="orders.html" class="active">Orders</a></li>
+        <li><a href="wishlist.html">Wishlist</a></li>
+        <li><a href="#" id="sidebar-logout">Sign Out</a></li>
+      </ul>
+    </aside>
+
+    <!-- Content -->
+    <div class="account-content">
+      <h2>Order History</h2>
+      
+      <div id="orders-container">
+        <!-- Rendered via JS -->
+      </div>
+    </div>
+  </main>
+
+  <script type="module" src="js/main.js"></script>
+  <script type="module" src="js/account.js"></script>
+</body>
+</html>
