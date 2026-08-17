@@ -1,4 +1,4 @@
-import { getCart, getCartTotal, formatCurrency, saveCart } from './utils.js';
+import { getCart, getCartTotal, formatCurrency } from './utils.js';
 
 document.addEventListener('DOMContentLoaded', () => {
   renderCheckoutSummary();
