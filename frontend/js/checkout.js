@@ -68,27 +68,12 @@ const setupCheckoutFlow = () => {
     }
 
     try {
-      const { apiFetch } = await import('./utils.js');
-      // Construct a mock shipping address object from the form
-      const shippingAddress = {
-        firstName: document.getElementById('shipping-fname')?.value,
-        lastName: document.getElementById('shipping-lname')?.value,
-        address: document.getElementById('shipping-address')?.value,
-        city: document.getElementById('shipping-city')?.value,
-        state: document.getElementById('shipping-state')?.value,
-        zip: document.getElementById('shipping-zip')?.value,
-      };
-
-      const res = await apiFetch('/orders', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ shippingAddress })
-      });
-
-      // Show success modal
-      orderNumberDisplay.textContent = res.order.id.slice(0, 8); // Short uuid
+      // Mock successful order placement without backend
+      const mockOrderId = Math.floor(Math.random() * 100000000).toString();
+      orderNumberDisplay.textContent = mockOrderId;
       
-      // Clear Cart (already done on backend, just trigger event on frontend)
+      // Clear Cart from Local Storage since we removed backend
+      localStorage.removeItem('blushe_cart');
       const u = await import('./utils.js');
       await u.fetchCart();
       window.dispatchEvent(new Event('cartUpdated'));
