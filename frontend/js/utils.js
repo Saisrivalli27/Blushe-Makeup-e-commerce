@@ -6,8 +6,6 @@
 const API_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
   ? 'http://localhost:5000/api'
   : 'https://blushe-makeup-e-commerce.onrender.com/api';
-const AUTH_KEY = 'blushe_token';
-const USER_KEY = 'blushe_user';
 
 // Format currency (INR)
 export const formatCurrency = (amount) => {
@@ -19,156 +17,57 @@ export const formatCurrency = (amount) => {
   }).format(amount);
 };
 
-// --- Auth Helpers ---
-export const getToken = () => localStorage.getItem(AUTH_KEY);
-export const getUser = () => {
-  const user = localStorage.getItem(USER_KEY);
-  return user ? JSON.parse(user) : null;
-};
-
-const getHeaders = () => {
-  const token = getToken();
-  return {
-    'Content-Type': 'application/json',
-    ...(token ? { 'Authorization': `Bearer ${token}` } : {})
-  };
-};
-
-export const loginUser = async (email, password) => {
-  try {
-    const res = await fetch(`${API_URL}/auth/login`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password })
-    });
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.error);
-    
-    localStorage.setItem(AUTH_KEY, data.session.access_token);
-    const userData = {
-      id: data.user.id,
-      name: data.user.user_metadata.full_name || email.split('@')[0],
-      email: data.user.email
-    };
-    localStorage.setItem(USER_KEY, JSON.stringify(userData));
-    window.dispatchEvent(new Event('authUpdated'));
-    return true;
-  } catch (err) {
-    showToast(err.message);
-    return false;
-  }
-};
-
-export const registerUser = async (fullName, email, password) => {
-  try {
-    const res = await fetch(`${API_URL}/auth/register`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ fullName, email, password })
-    });
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.error);
-    
-    localStorage.setItem(AUTH_KEY, data.session.access_token);
-    const userData = {
-      id: data.user.id,
-      name: data.user.user_metadata.full_name,
-      email: data.user.email
-    };
-    localStorage.setItem(USER_KEY, JSON.stringify(userData));
-    window.dispatchEvent(new Event('authUpdated'));
-    return true;
-  } catch (err) {
-    showToast(err.message);
-    return false;
-  }
-};
-
-export const logoutUser = () => {
-  localStorage.removeItem(AUTH_KEY);
-  localStorage.removeItem(USER_KEY);
-  cachedCart = [];
-  cachedWishlist = [];
-  window.dispatchEvent(new Event('authUpdated'));
-  window.dispatchEvent(new Event('cartUpdated'));
-  window.dispatchEvent(new Event('wishlistUpdated'));
-};
-
-// --- Cart Helpers ---
+// --- Cart Helpers (Local Storage) ---
 const CART_KEY = 'blushe_cart';
-let cachedCart = [];
+let cachedCart = JSON.parse(localStorage.getItem(CART_KEY)) || [];
+
+const saveCart = () => {
+  localStorage.setItem(CART_KEY, JSON.stringify(cachedCart));
+  window.dispatchEvent(new Event('cartUpdated'));
+};
 
 export const fetchCart = async () => {
-  if (!getToken()) {
-    cachedCart = [];
-    return cachedCart;
-  }
-  try {
-    const data = await apiFetch('/cart');
-    cachedCart = data.map(item => ({
-      id: item.product_id,
-      cartItemId: item.id,
-      name: item.products.name,
-      price: item.products.price,
-      image: item.products.image,
-      brand: item.products.brand,
-      quantity: item.quantity,
-      shade: null
-    }));
-  } catch (e) {
-    cachedCart = [];
-  }
+  cachedCart = JSON.parse(localStorage.getItem(CART_KEY)) || [];
   return cachedCart;
 };
 
 export const getCart = async () => {
-  return await fetchCart();
+  return cachedCart;
 };
 
 export const addToCart = async (product, quantity = 1, shade = null) => {
-  if (!getToken()) {
-    window.location.href = 'login.html';
-    return;
-  }
-  try {
-    await apiFetch('/cart', {
-      method: 'POST',
-      body: JSON.stringify({ productId: product.id, quantity })
+  const existingItemIndex = cachedCart.findIndex(item => item.id == product.id && item.shade == shade);
+  
+  if (existingItemIndex > -1) {
+    cachedCart[existingItemIndex].quantity += quantity;
+  } else {
+    cachedCart.push({
+      id: product.id,
+      cartItemId: Date.now() + Math.random().toString(), // unique id
+      name: product.name,
+      price: product.price,
+      image: product.image,
+      brand: product.brand,
+      quantity: quantity,
+      shade: shade
     });
-    await fetchCart();
-    window.dispatchEvent(new Event('cartUpdated'));
-    showToast(`${product.name} added to your bag.`);
-  } catch (e) {
-    showToast('Failed to add to cart.');
   }
+  
+  saveCart();
+  showToast(`${product.name} added to your bag.`);
 };
 
 export const removeFromCart = async (productId, shade = null) => {
-  if (!getToken()) return;
-  const item = cachedCart.find(i => i.id == productId);
-  if (!item) return;
-  try {
-    await apiFetch(`/cart/${item.cartItemId}`, { method: 'DELETE' });
-    await fetchCart();
-    window.dispatchEvent(new Event('cartUpdated'));
-  } catch (e) {
-    showToast('Failed to remove from cart.');
-  }
+  cachedCart = cachedCart.filter(item => !(item.id == productId && item.shade == shade));
+  saveCart();
 };
 
 export const updateCartQuantity = async (productId, shade, quantity) => {
-  if (!getToken() || quantity < 1) return;
-  const item = cachedCart.find(i => i.id == productId);
-  if (!item) return;
-  try {
-    await apiFetch(`/cart/${item.cartItemId}`, {
-      method: 'PUT',
-      body: JSON.stringify({ quantity })
-    });
-    await fetchCart();
-    window.dispatchEvent(new Event('cartUpdated'));
-  } catch(e) {
-    showToast('Failed to update quantity.');
+  if (quantity < 1) return;
+  const item = cachedCart.find(i => i.id == productId && i.shade == shade);
+  if (item) {
+    item.quantity = quantity;
+    saveCart();
   }
 };
 
@@ -180,68 +79,63 @@ export const getCartCount = (cart = cachedCart) => {
   return cart.reduce((count, item) => count + item.quantity, 0);
 };
 
-// --- Wishlist Helpers ---
+
+// --- Wishlist Helpers (Local Storage) ---
 const WISHLIST_KEY = 'blushe_wishlist';
-let cachedWishlist = [];
+let cachedWishlist = JSON.parse(localStorage.getItem(WISHLIST_KEY)) || [];
+
+const saveWishlist = () => {
+  localStorage.setItem(WISHLIST_KEY, JSON.stringify(cachedWishlist));
+  window.dispatchEvent(new Event('wishlistUpdated'));
+};
 
 export const fetchWishlist = async () => {
-  if (!getToken()) {
-    cachedWishlist = [];
-    return cachedWishlist;
-  }
-  try {
-    const data = await apiFetch('/wishlist');
-    cachedWishlist = data.map(item => ({
-      id: item.product_id,
-      wishlistItemId: item.id,
-      name: item.products.name,
-      price: item.products.price,
-      image: item.products.image,
-      brand: item.products.brand
-    }));
-  } catch (e) {
-    cachedWishlist = [];
-  }
+  cachedWishlist = JSON.parse(localStorage.getItem(WISHLIST_KEY)) || [];
   return cachedWishlist;
 };
 
 export const getWishlist = async () => {
-  return await fetchWishlist();
+  return cachedWishlist;
 };
 
 export const toggleWishlist = async (product) => {
-  if (!getToken()) {
-    window.location.href = 'login.html';
-    return false;
-  }
-  try {
-    const data = await apiFetch('/wishlist', {
-      method: 'POST',
-      body: JSON.stringify({ productId: product.id })
+  const index = cachedWishlist.findIndex(item => item.id == product.id);
+  let isWishlisted = false;
+  
+  if (index > -1) {
+    cachedWishlist.splice(index, 1);
+    showToast(`${product.name} removed from wishlist.`);
+  } else {
+    cachedWishlist.push({
+      id: product.id,
+      wishlistItemId: Date.now(),
+      name: product.name,
+      price: product.price,
+      image: product.image,
+      brand: product.brand
     });
-    await fetchWishlist();
-    window.dispatchEvent(new Event('wishlistUpdated'));
-    showToast(data.message);
-    return data.isWishlisted;
-  } catch (e) {
-    showToast('Failed to update wishlist.');
-    return false;
+    isWishlisted = true;
+    showToast(`${product.name} added to wishlist.`);
   }
+  
+  saveWishlist();
+  return isWishlisted;
 };
 
 export const isInWishlist = (productId) => {
-  return cachedWishlist.some(item => item.id == productId); // use loose equality just in case of string/int mismatch
+  return cachedWishlist.some(item => item.id == productId);
 };
 
 export const getWishlistCount = () => {
   return cachedWishlist.length;
 };
 
-// --- API Helpers ---
+
+// --- API Helpers (Products Only) ---
 export const apiFetch = async (endpoint, options = {}) => {
   const res = await fetch(`${API_URL}${endpoint}`, {
     ...options,
-    headers: { ...getHeaders(), ...options.headers }
+    headers: { 'Content-Type': 'application/json', ...options.headers }
   });
   if (!res.ok) {
     const data = await res.json().catch(() => ({}));
@@ -249,6 +143,7 @@ export const apiFetch = async (endpoint, options = {}) => {
   }
   return res.json();
 };
+
 
 // --- UI Helpers ---
 export const showToast = (message) => {
@@ -274,7 +169,8 @@ document.addEventListener('DOMContentLoaded', () => {
     container.className = 'toast-container';
     document.body.appendChild(container);
   }
-  // Initial fetches
-  fetchCart().then(() => window.dispatchEvent(new Event('cartUpdated')));
-  fetchWishlist().then(() => window.dispatchEvent(new Event('wishlistUpdated')));
+  
+  // Initial dispatches for UI
+  window.dispatchEvent(new Event('cartUpdated'));
+  window.dispatchEvent(new Event('wishlistUpdated'));
 });

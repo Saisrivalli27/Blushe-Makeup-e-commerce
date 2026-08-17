@@ -21,6 +21,7 @@ const getProducts = async (req, res) => {
 
     res.status(200).json(data);
   } catch (err) {
+    console.error('Supabase Product Fetch Error:', err);
     res.status(500).json({ error: 'Failed to fetch products' });
   }
 };
